@@ -18,6 +18,12 @@ BBOX = (152.7, 153.3, -27.7, -27.2)
 data = DataParser()
 
 
+def get_entity_type(routes_dict, route_id):
+    # Get TransLink URL and extract portion of path with vehicle type
+    # Edit this for different feeds
+    return routes_dict[route_id]['route_url'].split('/')[5]
+
+
 def get_feed(url):
     while True:
         response = requests.get(url)
@@ -40,11 +46,6 @@ def map_cache(path, bounding_box):
         with open(path, 'wb') as map_file:
             pickle.dump(map_area, map_file, protocol=pickle.HIGHEST_PROTOCOL)
     return map_area
-
-
-def get_entity_type(routes_dict, route_id):
-    # Get TransLink URL and extract portion of path with vehicle type
-    return routes_dict[route_id]['route_url'].split('/')[5]
 
 
 def plot_positions(feed, map_area, ax):
